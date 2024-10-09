@@ -7,13 +7,20 @@ public class TicTacToeFrame extends JFrame {
     private JButton[][] buttons; // 3x3 grid of buttons
     private char currentPlayer;  // Current player 'X' or 'O'
     private boolean gameEnded;
+    JPanel mainPnl;
+    JPanel boardPnl;
+    JPanel quitPnl;
+    JButton quitBtn;
 
     public TicTacToeFrame() {
+        mainPnl = new JPanel();
+        mainPnl.setLayout(new BorderLayout());
+        add(mainPnl);
 
         setTitle("Tic-Tac-Toe Game");
-        setSize(400, 450);
+        setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+
 
 
         buttons = new JButton[3][3];
@@ -21,20 +28,20 @@ public class TicTacToeFrame extends JFrame {
         gameEnded = false;
 
 
-        JPanel boardPanel = createBoardPanel();
-        add(boardPanel, BorderLayout.CENTER);
+        createBoardPanel();
+        mainPnl.add(boardPnl, BorderLayout.CENTER);
 
 
-        JPanel quitPanel = createQuitPanel();
-        add(quitPanel, BorderLayout.SOUTH);
+        createQuitPanel();
+        mainPnl.add(quitPnl, BorderLayout.SOUTH);
 
         setVisible(true);
     }
 
 
-    private JPanel createBoardPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 3)); // 3x3 grid layout
+    private void createBoardPanel() {
+        boardPnl = new JPanel();
+        boardPnl.setLayout(new GridLayout(3, 3)); // 3x3 grid layout
 
 
         for (int row = 0; row < 3; row++) {
@@ -42,22 +49,21 @@ public class TicTacToeFrame extends JFrame {
                 buttons[row][col] = new JButton("");
                 buttons[row][col].setFont(new Font("Arial", Font.PLAIN, 60));
                 buttons[row][col].setFocusable(false);
-                panel.add(buttons[row][col]);
+                boardPnl.add(buttons[row][col]);
 
 
                 buttons[row][col].addActionListener(new ButtonClickListener(row, col));
             }
         }
-        return panel;
     }
 
 
-    private JPanel createQuitPanel() {
-        JPanel panel = new JPanel();
-        JButton quitButton = new JButton("Quit");
-        quitButton.setFont(new Font("Arial", Font.PLAIN, 20));
+    private void createQuitPanel() {
+        quitPnl = new JPanel();
+        quitBtn = new JButton("Quit");
+        quitBtn.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        quitButton.addActionListener(e -> {
+        quitBtn.addActionListener(e -> {
             int confirmed = JOptionPane.showConfirmDialog(this,
                     "Are you sure you want to quit?", "Quit Confirmation",
                     JOptionPane.YES_NO_OPTION);
@@ -68,8 +74,7 @@ public class TicTacToeFrame extends JFrame {
         });
 
 
-        panel.add(quitButton);
-        return panel;
+        quitPnl.add(quitBtn);
     }
 
 
